@@ -41,9 +41,6 @@ namespace Progra3Card.Administrativo
             }
         }
 
-        // =========================================================================
-        // OPCIÓN 1: EMITIR NUEVA TARJETA (ALTA DE CLIENTE)
-        // =========================================================================
         static void MenuEmitirTarjeta()
         {
             Console.Clear();
@@ -58,7 +55,6 @@ namespace Progra3Card.Administrativo
                 {
                     conn.Open();
 
-                    // 1) Verificamos si el usuario ya existe en la tabla 'usuarios'
                     string sqlBuscaUsuario = "SELECT * FROM usuarios WHERE documento = @dni";
                     MySqlCommand cmdBusca = new MySqlCommand(sqlBuscaUsuario, conn);
                     cmdBusca.Parameters.AddWithValue("@dni", dni);
@@ -69,7 +65,6 @@ namespace Progra3Card.Administrativo
                         usuarioExiste = reader.HasRows;
                     }
 
-                    // 2) Si no existe, pedimos los datos personales y lo damos de alta
                     if (!usuarioExiste)
                     {
                         Console.WriteLine("\nNo existe un cliente con ese documento. Se registrará uno nuevo.");
@@ -110,7 +105,6 @@ namespace Progra3Card.Administrativo
                         Console.WriteLine("\nCliente encontrado. Se procederá a emitir la tarjeta.");
                     }
 
-                    // 3) Datos de la tarjeta
                     Console.Write("\nNúmero de tarjeta (16 dígitos): ");
                     string numeroTarjeta = Console.ReadLine();
 
