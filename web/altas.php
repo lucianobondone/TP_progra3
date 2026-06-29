@@ -29,10 +29,34 @@ if (!$resVerifica || $resVerifica->num_rows == 0) {
 $filaTarjeta = $resVerifica->fetch_assoc();
 $numCuenta = $filaTarjeta["num_cuenta"];
 
-$sqlUsuario = "INSERT INTO usuarios 
-(documento, tipo_doc, nombre, apellido, fecha_nacimiento, email, usuario, password)
-VALUES 
-('$dni', '$tipodoc', '$nombre', '$apellido', '$fecha_nac', '$email', '$usuario', '$passA')";
+$sqlBuscaUsuario = "SELECT usuario FROM usuarios WHERE documento = '$dni'";
+$resBusca = $conn->query($sqlBuscaUsuario);
+
+if ($resBusca && $resBusca->num_rows > 0) {
+
+    $filaUsuario = $resBusca->fetch_assoc();
+
+    if ($filaUsuario["usuario"] !== NULL) {
+        die("Ya existe una cuenta web activa para el documento ingresado.");
+    }
+
+    $sqlUsuario = "UPDATE usuarios SET
+        tipo_doc = '$tipodoc',
+        nombre = '$nombre',
+        apellido = '$apellido',
+        fecha_nacimiento = '$fecha_nac',
+        email = '$email',
+        usuario = '$usuario',
+        password = '$passA'
+        WHERE documento = '$dni'";
+
+} else {
+
+    $sqlUsuario = "INSERT INTO usuarios 
+    (documento, tipo_doc, nombre, apellido, fecha_nacimiento, email, usuario, password)
+    VALUES 
+    ('$dni', '$tipodoc', '$nombre', '$apellido', '$fecha_nac', '$email', '$usuario', '$passA')";
+}
 
 if ($conn->query($sqlUsuario) === TRUE) {
 
