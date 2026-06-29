@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using MySql.Data.MySqlClient; 
 
 namespace Progra3Card.Administrativo

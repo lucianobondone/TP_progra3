@@ -1,0 +1,9 @@
+# Base de datos Docker
+bDContenedor/
+
+# Archivos compilados de C#
+Progra3CardAdmin/bin/
+Progra3CardAdmin/obj/
+
+# Configuración de VS Code (opcional)
+.vscode/
