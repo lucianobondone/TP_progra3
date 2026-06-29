@@ -1,6 +1,8 @@
 services:
   php:
-    image: php:8.2-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: php-fpm_UTN
     volumes:
       - ./:/var/www/html
@@ -34,7 +36,7 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin_UTN
     environment:
-      PMA_HOST: db_UTN
+      PMA_HOST: db
     ports:
       - "8080:80"
     depends_on:
