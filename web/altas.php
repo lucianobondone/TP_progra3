@@ -19,6 +19,16 @@ if ($tipodoc != "DNI" && $tipodoc != "PASAPORTE") {
     die("Tipo de documento inválido");
 }
 
+$sqlVerificaTarjeta = "SELECT num_cuenta FROM tarjetas WHERE dni_titular = '$dni'";
+$resVerifica = $conn->query($sqlVerificaTarjeta);
+
+if (!$resVerifica || $resVerifica->num_rows == 0) {
+    die("No se encontró ninguna tarjeta emitida para el documento ingresado.");
+}
+
+$filaTarjeta = $resVerifica->fetch_assoc();
+$numCuenta = $filaTarjeta["num_cuenta"];
+
 $sqlUsuario = "INSERT INTO usuarios 
 (documento, tipo_doc, nombre, apellido, fecha_nacimiento, email, usuario, password)
 VALUES 
@@ -27,26 +37,7 @@ VALUES
 if ($conn->query($sqlUsuario) === TRUE) {
 
     echo "Usuario registrado con éxito<br>";
-
-    $sqlTarjeta = "SELECT num_cuenta FROM tarjetas LIMIT 1";
-
-    $result = $conn->query($sqlTarjeta);
-
-    if ($result && $row = $result->fetch_assoc()) {
-
-        $numCuenta = $row["num_cuenta"];
-
-        $sqlUpdate = "UPDATE tarjetas SET dni_titular = '$dni' WHERE num_cuenta = $numCuenta";
-
-        if ($conn->query($sqlUpdate) === TRUE) {
-            echo "<br>Tarjeta asignada correctamente (Cuenta: $numCuenta)";
-        } else {
-            echo "<br>Error al asignar tarjeta: " . $conn->error;
-        }
-
-    } else {
-        echo "<br>Error: no se pudo obtener tarjeta";
-    }
+    echo "<br>Tarjeta vinculada correctamente (Cuenta: $numCuenta)";
 
 } else {
     echo "Error al registrar usuario: " . $conn->error;
