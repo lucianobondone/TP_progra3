@@ -9,7 +9,7 @@ if (!isset($_SESSION["logueado"]) || $_SESSION["logueado"] !== true) {
 
 $usuario = $_SESSION["usuario"];
 
-$sqlCuenta = "SELECT t.num_cuenta FROM usuarios u JOIN tarjetas t ON u.documento = t.dni_titular WHERE u.usuario = '$usuario'LIMIT 1";
+$sqlCuenta = "SELECT t.num_cuenta FROM usuarios u JOIN tarjetas t ON u.documento = t.dni_titular WHERE u.usuario = '$usuario' LIMIT 1";
 
 $resCuenta = $conn->query($sqlCuenta);
 
